@@ -5,7 +5,7 @@ namespace Keboola\GmailExtractor;
 class Extractor
 {
     /** @var OutputFiles  */
-    private $storage;
+    private $outputFiles;
 
     /** @var MessagesResource  */
     private $messages;
@@ -13,12 +13,12 @@ class Extractor
     /**
      * Extractor constructor.
      * @param MessagesResource $messages
-     * @param OutputFiles $storage
+     * @param OutputFiles $outputFiles
      */
-    public function __construct(MessagesResource $messages, OutputFiles $storage)
+    public function __construct(MessagesResource $messages, OutputFiles $outputFiles)
     {
         $this->messages = $messages;
-        $this->storage = $storage;
+        $this->outputFiles = $outputFiles;
     }
 
     /**
@@ -29,7 +29,7 @@ class Extractor
     {
         foreach ($this->messages->listMessages('me', $params) as $message) {
             $fullMessage = $this->messages->getMessage($message->getId(), 'me');
-            $messageWriter = new MessageWriter($fullMessage, $this->storage);
+            $messageWriter = new MessageWriter($fullMessage, $this->outputFiles);
             $messageWriter->save();
         }
     }
