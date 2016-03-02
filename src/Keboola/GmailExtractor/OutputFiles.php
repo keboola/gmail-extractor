@@ -18,7 +18,7 @@ class OutputFiles
                 'id',
                 'threadId',
             ],
-            'primary' => 'id',
+            'primary' => ['id'],
         ],
         'headers' => [
             'file' => 'headers.csv',
