@@ -16,7 +16,8 @@ if (!isset($arguments['data'])) {
 try {
     $config = Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
 
-    if (!isset($config['image_parameters']['#client_id']) || !isset($config['image_parameters']['#client_secret'])) {
+    if (!isset($config['authorization']['oauth_api']['credentials']['appKey'])
+        || !isset($config['authorization']['oauth_api']['credentials']['#appSecret'])) {
         echo 'App configuration is missing parameter #client_id or #client_secret, contact support please.' . "\n";
         exit(1);
     }
@@ -41,8 +42,8 @@ try {
     $client = new Google_Client;
     $client->setApplicationName('Keboola Gmail Extractor');
     $client->setScopes(Google_Service_Gmail::GMAIL_READONLY);
-    $client->setClientId($config['image_parameters']['#client_id']);
-    $client->setClientSecret($config['image_parameters']['#client_secret']);
+    $client->setClientId($config['authorization']['oauth_api']['credentials']['appKey']);
+    $client->setClientSecret($config['authorization']['oauth_api']['credentials']['#appSecret']);
     $client->setAccessType('offline');
     $client->setAccessToken($config['authorization']['oauth_api']['credentials']['#data']);
     if ($client->isAccessTokenExpired()) {
