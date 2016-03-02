@@ -94,12 +94,13 @@ class OutputFiles
      */
     private function createManifestFiles()
     {
-        foreach ($this->definitions as $definition) {
+        foreach ($this->definitions as $table => $definition) {
             $manifestFile = $this->path . '/' . $definition['file'] . '.manifest';
             if (!file_exists($manifestFile)) {
                 file_put_contents($manifestFile, Yaml::dump([
                     'incremental' => true,
-                    'primary_key' => $definition['primary']
+                    'primary_key' => $definition['primary'],
+                    'destination' => $table,
                 ]));
             }
         }
