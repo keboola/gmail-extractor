@@ -100,7 +100,7 @@ class OutputFiles
                 file_put_contents($manifestFile, Yaml::dump([
                     'incremental' => true,
                     'primary_key' => $definition['primary'],
-                    'destination' => $table,
+                    'destination' => 'out.c-ex-gmail.' . $table,
                 ]));
             }
         }
