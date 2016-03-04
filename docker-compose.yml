@@ -1,0 +1,4 @@
+tests:
+  build: .
+  tty: true
+  command: ./tests.sh
