@@ -53,7 +53,7 @@ class MessageWriter
                 $this->outputFiles->getHeadersFile()->writeRow([
                     $this->message->getId(),
                     $messageHeader->getName(),
-                    $messageHeader->getValue()
+                    $this->substring65535($messageHeader->getValue())
                 ]);
             }
         }
@@ -68,10 +68,20 @@ class MessageWriter
                     $messagePart->getPartId(),
                     $messagePart->getMimeType(),
                     $messagePart->getBody()['size'],
-                    Base64Url::decode($messagePart->getBody()['data']),
+                    $this->substring65535(Base64Url::decode($messagePart->getBody()['data'])),
                 ]);
             }
         }
+    }
+
+    /**
+     * Wrap string to (64k - 1) bytes
+     * @param $string
+     * @return string
+     */
+    private function substring65535($string)
+    {
+        return substr($string, 0, 65535);
     }
 
     /**
