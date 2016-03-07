@@ -32,6 +32,7 @@ class Extractor
             foreach ($this->messages->listMessages('me', $params) as $message) {
                 $fullMessage = $this->messages->getMessage($message->getId(), 'me');
                 $messageWriter = new MessageWriter($fullMessage, $this->outputFiles);
+                $messageWriter->setAllowedHeaders($query->getHeaders());
                 $messageWriter->save();
             }
         }
