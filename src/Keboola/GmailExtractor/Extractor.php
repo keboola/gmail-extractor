@@ -22,15 +22,18 @@ class Extractor
     }
 
     /**
-     * Extracts messages
-     * @param $params
+     * Extracts messages by specified queries
+     * @param $queries Query[]
      */
-    public function extract($params)
+    public function extract($queries)
     {
-        foreach ($this->messages->listMessages('me', $params) as $message) {
-            $fullMessage = $this->messages->getMessage($message->getId(), 'me');
-            $messageWriter = new MessageWriter($fullMessage, $this->outputFiles);
-            $messageWriter->save();
+        foreach ($queries as $query) {
+            $params['q'] = $query->getQuery();
+            foreach ($this->messages->listMessages('me', $params) as $message) {
+                $fullMessage = $this->messages->getMessage($message->getId(), 'me');
+                $messageWriter = new MessageWriter($fullMessage, $this->outputFiles);
+                $messageWriter->save();
+            }
         }
     }
 }
