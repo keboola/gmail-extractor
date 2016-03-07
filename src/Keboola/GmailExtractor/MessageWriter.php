@@ -16,10 +16,22 @@ class MessageWriter
         'text/html',
     ];
 
+    /** @var [] headers to save */
+    private $allowedHeaders = [];
+
     public function __construct(\Google_Service_Gmail_Message $message, OutputFiles $outputFiles)
     {
         $this->message = $message;
         $this->outputFiles = $outputFiles;
+    }
+
+    /**
+     * Sets allowed headers
+     * @param $headers []
+     */
+    public function setAllowedHeaders($headers)
+    {
+        $this->allowedHeaders = $headers;
     }
 
     /**
@@ -37,18 +49,20 @@ class MessageWriter
 
         foreach ($messageHeaders as $messageHeader) {
             /** @var $messageHeader \Google_Service_Gmail_MessagePartHeader */
-            $this->outputFiles->getHeadersFile()->writeRow([
-                $this->message->getId(),
-                $messageHeader->getName(),
-                $messageHeader->getValue()
-            ]);
+            if ($this->isHeaderAllowed($messageHeader)) {
+                $this->outputFiles->getHeadersFile()->writeRow([
+                    $this->message->getId(),
+                    $messageHeader->getName(),
+                    $messageHeader->getValue()
+                ]);
+            }
         }
 
         $messageParts = $this->message->getPayload()['parts'];
 
         foreach ($messageParts as $messagePart) {
             /** @var $messagePart \Google_Service_Gmail_MessagePart */
-            if (in_array($messagePart->getMimeType(), $this->allowedMimeTypes)) {
+            if ($this->isMimeTypeAllowed($messagePart)) {
                 $this->outputFiles->getPartsFile()->writeRow([
                     $this->message->getId(),
                     $messagePart->getPartId(),
@@ -58,5 +72,25 @@ class MessageWriter
                 ]);
             }
         }
+    }
+
+    /**
+     * Checks if header is marked for saving
+     * @param \Google_Service_Gmail_MessagePartHeader $header
+     * @return bool
+     */
+    private function isHeaderAllowed(\Google_Service_Gmail_MessagePartHeader $header)
+    {
+        return empty($this->allowedHeaders) || in_array($header->getName(), $this->allowedHeaders);
+    }
+
+    /**
+     * Checks if message part's mime type is marked for saving
+     * @param \Google_Service_Gmail_MessagePart $part
+     * @return bool
+     */
+    private function isMimeTypeAllowed(\Google_Service_Gmail_MessagePart $part)
+    {
+        return empty($this->allowedMimeTypes) || in_array($part->getMimeType(), $this->allowedMimeTypes);
     }
 }
