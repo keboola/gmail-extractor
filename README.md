@@ -15,7 +15,12 @@ Docker application for extracting data from Gmail.
     "parameters": {
         "queries": [
             {
-                "query": "from:some.address@example.com"
+                "query": "from:some.address@example.com",
+                "headers": [
+                    "From",
+                    "To",
+                    "Subject"
+                ]
             },
             {
                 "query": "from:another.address@example.com"

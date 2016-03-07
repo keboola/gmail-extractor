@@ -38,10 +38,18 @@ try {
     $queries = [];
     foreach ($config['parameters']['queries'] as $item) {
         if (!isset($item['query'])) {
-            echo 'Parameter query must be specified' . "\n";
+            echo 'Parameter query must be specified.' . "\n";
             exit(1);
         }
-        $queries[] = new Query($item['query']);
+        $headers = [];
+        if (isset($item['headers'])) {
+            if (!is_array($item['headers'])) {
+                echo 'Parameter headers must be specified as array.' . "\n";
+                exit(1);
+            }
+            $headers = $item['headers'];
+        }
+        $queries[] = new Query($item['query'], $headers);
     }
 
     $outputPath = $arguments['data'] . '/out/tables';
