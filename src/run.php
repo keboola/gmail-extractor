@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Yaml\Yaml;
 use Keboola\GmailExtractor\OutputFiles;
+use Keboola\GmailExtractor\Query;
 
 $arguments = getopt("d::", ["data:"]);
 if (!isset($arguments['data'])) {
@@ -25,19 +26,28 @@ try {
         echo 'App configuration is missing #data, contact support please.'. "\n";
         exit(1);
     }
-    if (!isset($config['parameters']['q'])) {
-        echo 'Please provide query parameter (q).' . "\n";
+    if (!isset($config['parameters']['queries'])) {
+        echo 'Please specify queries.' . "\n";
         exit(1);
+    }
+    if (!is_array($config['parameters']['queries'])) {
+        echo 'Queries must be specified as array.' . "\n";
+        exit(1);
+    }
+
+    $queries = [];
+    foreach ($config['parameters']['queries'] as $item) {
+        if (!isset($item['query'])) {
+            echo 'Parameter query must be specified' . "\n";
+            exit(1);
+        }
+        $queries[] = new Query($item['query']);
     }
 
     $outputPath = $arguments['data'] . '/out/tables';
     if (!file_exists($outputPath)) {
         mkdir($outputPath, 0755, true);
     }
-
-    $params = [
-        'q' => $config['parameters']['q'],
-    ];
 
     $client = new Google_Client;
     $client->setApplicationName('Keboola Gmail Extractor');
@@ -59,8 +69,9 @@ try {
         ->addArgument(new Reference('messages'))
         ->addArgument(new OutputFiles($outputPath));
 
+    /** @var \Keboola\GmailExtractor\Extractor $extractor */
     $extractor = $container->get('extractor');
-    $extractor->extract($params);
+    $extractor->extract($queries);
     exit(0);
 } catch (Exception $e) {
     echo $e->getMessage();
