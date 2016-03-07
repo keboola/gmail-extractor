@@ -11,7 +11,7 @@ class MessageWriter
     private $outputFiles;
 
     /** @var [] message part mime types to store  */
-    private $messagePartAllowedMimeTypes = [
+    private $allowedMimeTypes = [
         'text/plain',
         'text/html',
     ];
@@ -48,7 +48,7 @@ class MessageWriter
 
         foreach ($messageParts as $messagePart) {
             /** @var $messagePart \Google_Service_Gmail_MessagePart */
-            if (in_array($messagePart->getMimeType(), $this->messagePartAllowedMimeTypes)) {
+            if (in_array($messagePart->getMimeType(), $this->allowedMimeTypes)) {
                 $this->outputFiles->getPartsFile()->writeRow([
                     $this->message->getId(),
                     $messagePart->getPartId(),
