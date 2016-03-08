@@ -8,4 +8,10 @@ before_install:
 
 script:
   - docker-compose build
-  - docker-compose run tests
+  - >
+    docker-compose run
+    -e ENV_GMAIL_EXTRACTOR_APP_KEY=$ENV_GMAIL_EXTRACTOR_APP_KEY
+    -e ENV_GMAIL_EXTRACTOR_APP_SECRET=$ENV_GMAIL_EXTRACTOR_APP_SECRET
+    -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
+    -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
+    tests
