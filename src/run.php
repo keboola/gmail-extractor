@@ -3,7 +3,6 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Yaml\Yaml;
 use Keboola\GmailExtractor\OutputFiles;
 use Keboola\GmailExtractor\Query;
@@ -70,11 +69,8 @@ try {
 
     $container = new ContainerBuilder;
     $container
-        ->register('messages', 'Keboola\GmailExtractor\MessagesResource')
-        ->addArgument(new Google_Service_Gmail($client));
-    $container
         ->register('extractor', 'Keboola\GmailExtractor\Extractor')
-        ->addArgument(new Reference('messages'))
+        ->addArgument(new Google_Service_Gmail($client))
         ->addArgument(new OutputFiles($outputPath));
 
     /** @var \Keboola\GmailExtractor\Extractor $extractor */
