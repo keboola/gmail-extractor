@@ -42,6 +42,57 @@ Important notes:
 }
 ```
 
+## Output
+
+### `stdout`
+
+Application informs you about extraction process. For example:
+
+```
+Queries: 1
+Processing query: from:some.address@example.com
+Processed results: 100
+Processed results: 200
+Processed results: 300
+Processed results: 340
+Done.
+```
+
+### Files
+
+After successful extraction there are several files, which contains data about downloaded e-mails.
+
+#### `messages.csv`
+
+Base table of messages:
+
+| id | threadId |
+| --- | --- |
+| `9876cbd54bd215a6` | `1234abcd2ffdc1d6` |
+| `1234abcd2ffdc1d6` | `1234abcd2ffdc1d6` |
+
+*Tip: You can group your messages to conversations with `GROUP BY threadId`*
+
+#### `headers.csv`
+
+Contains all headers:
+
+| messageId | name | value |
+| --- | --- | --- |
+| `1234abcd2ffdc1d6` | `From` | `News <some.address@example.com>` |
+| `1234abcd2ffdc1d6` | `Subject` | `Trending News` |
+
+#### `parts.csv`
+
+All downloaded message parts  
+
+| messageId | partId | mimeType | bodySize | bodyData |
+| --- | --- | --- | --- | --- |
+| `1234abcd2ffdc1d6` | `0` | `text/plain` | `26` | `Lorem ipsum dolor sit amet` |
+| `1234abcd2ffdc1d6` | `1` | `text/html` | `33` | `<p>Lorem ipsum dolor sit amet</p>` |
+
+*Note: Only parts with `text/plain` and `text/html` mime types are downloaded.*
+
 ## License
 
 MIT. See license file.
