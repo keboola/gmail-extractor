@@ -1,4 +1,10 @@
 tests:
   build: .
   tty: true
+  stdin_open: true
   command: ./tests.sh
+
+tests-report:
+  extends:
+    service: tests
+  command: ./vendor/bin/test-reporter

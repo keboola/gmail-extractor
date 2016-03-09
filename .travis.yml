@@ -3,15 +3,20 @@ sudo: required
 services:
   - docker
 
-before_install:
+before_script:
   - docker-compose -v
 
 script:
   - docker-compose build
   - >
     docker-compose run
+    --rm
     -e ENV_GMAIL_EXTRACTOR_APP_KEY=$ENV_GMAIL_EXTRACTOR_APP_KEY
     -e ENV_GMAIL_EXTRACTOR_APP_SECRET=$ENV_GMAIL_EXTRACTOR_APP_SECRET
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
-    -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
     tests
+  - >
+    docker compose run
+    --rm
+    -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
+    tests-report
