@@ -12,7 +12,7 @@ Important notes:
 
 - try to be as much specific as possible while defining queries, it speeds up extraction
 - by default, application won't fetch messages in your `spam` and `trash` folders
-- we're accessing inbox with readonly access `https://www.googleapis.com/auth/gmail.readonly`
+- inbox is accessed with readonly access `https://www.googleapis.com/auth/gmail.readonly`
 
 
 ## Configuration
@@ -22,7 +22,7 @@ Important notes:
         - `query`: query to execute, same query format as in the Gmail search box
         - `headers`: (optional) array of header names which you want to save
 
-### Sample
+Example:
 
 ```json
 {
@@ -94,6 +94,76 @@ All downloaded message parts
 | `1234abcd2ffdc1d6` | `1` | `text/html` | `33` | `<p>Lorem ipsum dolor sit amet</p>` |
 
 *Note: Only parts with `text/plain` and `text/html` mime types are downloaded.*
+
+## Development
+
+Since application is prepared for running in container, you can start development same way.
+
+1. Clone this repository: `git clone git@github.com:keboola/gmail-extractor.git`
+2. Change directory `cd gmail-extractor`
+3. Build an image: `docker build -t keboola/gmail-extractor .`
+4. Create data dir: `mkdir -p data`
+5. Create `config.yml` file and place it to your data directory (e.g. `data/config.yml`):
+```yaml
+parameters:
+  queries:
+    - query: 'from:some.address@example.com'
+      headers:
+        - 'Date'
+        - 'From'
+        - 'Subject'
+authorization:
+  oauth_api:
+    credentials:
+      '#data': '{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
+      'appKey': 'application-key'
+      '#appSecret': 'application-secret'
+```
+6. Run container: `docker run -i -t --rm -v "$PWD:/code" -v "$PWD/data:/data" keboola/gmail-extractor bash`
+7. Run application `php src/run.php --data=/data/`
+
+### Tests
+
+There are two ways of running tests:
+
+1. From inside of container (preferred way for development)
+2. From outside, using `docker-compose` (like TravisCI)
+
+#### 1. Inside
+
+Create bash script `vars` with similar content:
+
+```bash
+#!/bin/bash
+export ENV_GMAIL_EXTRACTOR_APP_KEY='application-key'
+export ENV_GMAIL_EXTRACTOR_APP_SECRET='application-secret'
+export ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON='{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
+```
+
+*Note: These values can be same as those in `config.yml`.*
+
+Source these environment variables and run `tests.sh` command:
+
+```bash
+source ./vars
+./tests.sh
+```
+
+#### 2. Outside
+
+Create similar `vars` file as in previous section.
+
+Source environment variables and run `docker-compose` command:
+
+```bash
+source ./vars
+docker-compose run \
+  --rm \
+  -e ENV_GMAIL_EXTRACTOR_APP_KEY=$ENV_GMAIL_EXTRACTOR_APP_KEY \
+  -e ENV_GMAIL_EXTRACTOR_APP_SECRET=$ENV_GMAIL_EXTRACTOR_APP_SECRET \
+  -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON \
+  tests
+```
 
 ## License
 
