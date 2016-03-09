@@ -16,7 +16,7 @@ script:
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
     tests
   - >
-    docker compose run
+    docker-compose run
     --rm
     -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
     tests-report
