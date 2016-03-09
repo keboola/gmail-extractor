@@ -104,21 +104,22 @@ Since application is prepared for running in container, you can start developmen
 3. Build an image: `docker build -t keboola/gmail-extractor .`
 4. Create data dir: `mkdir -p data`
 5. Create `config.yml` file and place it to your data directory (e.g. `data/config.yml`):
-```yaml
-parameters:
-  queries:
-    - query: 'from:some.address@example.com'
-      headers:
-        - 'Date'
-        - 'From'
-        - 'Subject'
-authorization:
-  oauth_api:
-    credentials:
-      '#data': '{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
-      'appKey': 'application-key'
-      '#appSecret': 'application-secret'
-```
+
+    ```yaml
+    parameters:
+      queries:
+        - query: 'from:some.address@example.com'
+          headers:
+            - 'Date'
+            - 'From'
+            - 'Subject'
+    authorization:
+      oauth_api:
+        credentials:
+          '#data': '{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
+          'appKey': 'application-key'
+          '#appSecret': 'application-secret'
+    ```
 6. Run container: `docker run -i -t --rm -v "$PWD:/code" -v "$PWD/data:/data" keboola/gmail-extractor bash`
 7. Run application `php src/run.php --data=/data/`
 
