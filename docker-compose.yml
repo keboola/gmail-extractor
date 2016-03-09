@@ -4,7 +4,7 @@ tests:
   stdin_open: true
   command: ./tests.sh
 
-tests-report:
+tests-with-report:
   extends:
     service: tests
-  command: ./vendor/bin/test-reporter
+  command: sh -c './tests.sh && ./vendor/bin/test-reporter'
