@@ -56,7 +56,7 @@ class Extractor
                         $fullMessage = $this->gmailService->users_messages->get('me', $message->getId(), [
                             'format' => 'full'
                         ]);
-                        $messageWriter = new MessageWriter($fullMessage, $this->outputFiles);
+                        $messageWriter = new MessageWriter($fullMessage, $this->outputFiles, $query);
                         $messageWriter->setAllowedHeaders($query->getHeaders());
                         $messageWriter->save();
                     }

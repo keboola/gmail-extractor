@@ -10,19 +10,23 @@ class MessageWriter
     /** @var OutputFiles  */
     private $outputFiles;
 
-    /** @var [] message part mime types to store  */
+    /** @var array message part mime types to store  */
     private $allowedMimeTypes = [
         'text/plain',
         'text/html',
     ];
 
+    /** @var Query */
+    private $query;
+
     /** @var [] headers to save */
     private $allowedHeaders = [];
 
-    public function __construct(\Google_Service_Gmail_Message $message, OutputFiles $outputFiles)
+    public function __construct(\Google_Service_Gmail_Message $message, OutputFiles $outputFiles, Query $query)
     {
         $this->message = $message;
         $this->outputFiles = $outputFiles;
+        $this->query = $query;
     }
 
     /**
@@ -40,6 +44,11 @@ class MessageWriter
      */
     public function save()
     {
+        $this->outputFiles->getQueriesFile()->writeRow([
+            $this->query->getQuery(),
+            $this->message->getId(),
+        ]);
+
         $this->outputFiles->getMessagesFile()->writeRow([
             $this->message->getId(),
             $this->message->getThreadId(),

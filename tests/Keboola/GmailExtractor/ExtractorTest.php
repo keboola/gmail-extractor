@@ -2,11 +2,30 @@
 
 namespace Keboola\GmailExtractor;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class ExtractorTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Filesystem */
+    private $fs;
+
+    private $path = '/tmp/extractor';
+
+    protected function setUp()
+    {
+        $this->fs = new Filesystem;
+        $this->fs->remove($this->path);
+        $this->fs->mkdir($this->path);
+    }
+
+    protected function tearDown()
+    {
+        $this->fs->remove($this->path);
+    }
+
     public function testExtract()
     {
-        $path = '/tmp';
+        $path = $this->path;
         $outputFiles = new OutputFiles($path);
 
         $client = new \Google_Client;
@@ -32,6 +51,7 @@ class ExtractorTest extends \PHPUnit_Framework_TestCase
         $messagesFileName = $outputFiles->getMessagesFile()->getFilename();
         $headersFileName = $outputFiles->getHeadersFile()->getFilename();
         $partsFileName = $outputFiles->getPartsFile()->getFilename();
+        $queriesFileName = $outputFiles->getQueriesFile()->getFilename();
 
         $messagesContents = <<<CSV
 "id","threadId"
@@ -50,14 +70,20 @@ CSV;
 "15341d3b36d2fccc","1","text/html","84","<div dir=""ltr""><a href=""https://www.keboola.com"">https://www.keboola.com</a></div>
 "\n
 CSV;
+        $queriesContents = <<<CSV
+"query","messageId"
+"subject:keboola-gmail-extractor-test-email","15341d3b36d2fccc"\n
+CSV;
 
         $this->assertFileExists($path . '/' . $messagesFileName);
         $this->assertFileExists($path . '/' . $headersFileName);
         $this->assertFileExists($path . '/' . $partsFileName);
+        $this->assertFileExists($path . '/' . $queriesFileName);
 
         $this->assertEquals($messagesContents, $this->normalizeNewlines(file_get_contents($path . '/' . $messagesFileName)));
         $this->assertEquals($headersContents, $this->normalizeNewlines(file_get_contents($path . '/' . $headersFileName)));
         $this->assertEquals($partsContents, $this->normalizeNewlines(file_get_contents($path . '/' . $partsFileName)));
+        $this->assertEquals($queriesContents, $this->normalizeNewlines(file_get_contents($path . '/' . $queriesFileName)));
     }
 
     /**
