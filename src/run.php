@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
 use Keboola\GmailExtractor\OutputFiles;
 use Keboola\GmailExtractor\Query;
+use Keboola\GmailExtractor\StateFiles;
 
 $arguments = getopt("d::", ["data:"]);
 if (!isset($arguments['data'])) {
@@ -34,6 +35,13 @@ try {
         exit(1);
     }
 
+    $stateFiles = new StateFiles($arguments['data']);
+    if (($state = $stateFiles->getStateIn()) === null) {
+        $state = [
+            'query-dates' => [],
+        ];
+    }
+
     $queries = [];
     foreach ($config['parameters']['queries'] as $item) {
         if (!isset($item['query'])) {
@@ -48,13 +56,23 @@ try {
             }
             $headers = $item['headers'];
         }
-        $queries[] = new Query($item['query'], $headers);
+        $queryString = trim($item['query']);
+        if (isset($state['query-dates'][$queryString])) {
+            $query = new Query($queryString, $headers, new DateTime($state['query-dates'][$queryString] . ' -1 day'));
+        } else {
+            $query = new Query($queryString, $headers);
+        }
+        $state['query-dates'][$queryString] = (new DateTime)->format('Y-m-d H:i:s');
+        $queries[] = $query;
     }
 
     $outputPath = $arguments['data'] . '/out/tables';
     if (!file_exists($outputPath)) {
         mkdir($outputPath, 0755, true);
     }
+
+    $stateFiles->setStateOut($state);
+    $stateFiles->saveStateOut();
 
     $client = new Google_Client;
     $client->setApplicationName('Keboola Gmail Extractor');

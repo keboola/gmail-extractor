@@ -33,7 +33,7 @@ class Extractor
         $output->writeln('Queries: ' . count($queries));
 
         foreach ($queries as $query) {
-            $q = $query->getQuery();
+            $q = $query->buildQuery();
             $output->writeln('Processing query: ' . $q);
 
             $params = [
