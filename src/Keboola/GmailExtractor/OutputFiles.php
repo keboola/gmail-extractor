@@ -39,8 +39,28 @@ class OutputFiles
                 'bodyData',
             ],
             'primary' => ['messageId', 'partId'],
+        ],
+        'queries' => [
+            'file' => 'queries.csv',
+            'columns' => [
+                'query',
+                'messageId',
+            ],
+            'primary' => ['query', 'messageId'],
         ]
     ];
+
+    /** @var CsvFile */
+    private $messagesFile;
+
+    /** @var CsvFile */
+    private $headersFile;
+
+    /** @var CsvFile */
+    private $partsFile;
+
+    /** @var CsvFile */
+    private $queriesFile;
 
     /**
      * Prepares output files (both .csv and .manifest) with initial content.
@@ -59,11 +79,14 @@ class OutputFiles
         $this->partsFile = new CsvFile($this->path . '/' . $this->definitions['parts']['file']);
         $this->partsFile->writeRow($this->definitions['parts']['columns']);
 
+        $this->queriesFile = new CsvFile($this->path . '/' . $this->definitions['queries']['file']);
+        $this->queriesFile->writeRow($this->definitions['queries']['columns']);
+
         $this->createManifestFiles();
     }
 
     /**
-     * Gets file for messages
+     * Gets file for storing messages
      * @return CsvFile
      */
     public function getMessagesFile()
@@ -72,7 +95,7 @@ class OutputFiles
     }
 
     /**
-     * Gets file for message headers
+     * Gets file for storing headers
      * @return CsvFile
      */
     public function getHeadersFile()
@@ -81,12 +104,21 @@ class OutputFiles
     }
 
     /**
-     * Gets file for message part
+     * Gets file for storing message parts
      * @return CsvFile
      */
     public function getPartsFile()
     {
         return $this->partsFile;
+    }
+
+    /**
+     * Gets file for storing queries
+     * @return CsvFile
+     */
+    public function getQueriesFile()
+    {
+        return $this->queriesFile;
     }
 
     /**
