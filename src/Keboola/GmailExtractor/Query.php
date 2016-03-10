@@ -4,16 +4,20 @@ namespace Keboola\GmailExtractor;
 
 class Query
 {
-    /** @var  string */
+    /** @var string */
     private $query;
 
-    /** @var  [] headers to save */
+    /** @var array headers to save */
     private $headers;
 
-    public function __construct($query, $headers = [])
+    /** @var null|\DateTime */
+    private $date;
+
+    public function __construct($query, $headers = [], $date = null)
     {
         $this->query = $query;
         $this->headers = $headers;
+        $this->date = $date;
     }
 
     /**
@@ -26,11 +30,36 @@ class Query
     }
 
     /**
+     * @return bool
+     */
+    public function hasDate()
+    {
+        return ($this->date instanceof \DateTime);
+    }
+
+    /**
      * Gets headers
      * @return array
      */
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * Gets built query
+     * @return string
+     */
+    public function buildQuery()
+    {
+        return $this->hasDate() ? $this->getQueryWithDate() : $this->getQuery();
+    }
+
+    /**
+     * @return string
+     */
+    private function getQueryWithDate()
+    {
+        return '(' . $this->query . ') after:' . $this->date->format('Y/m/d');
     }
 }
