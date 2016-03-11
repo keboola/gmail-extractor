@@ -23,15 +23,14 @@ Sample:
 }
 ```
 
-*Tip: Google provides big [manual on Gmail's Help site](https://support.google.com/mail/answer/7190?hl=en) which can help you with query definition.*
-
 Explanation:
 
-- First query will fetch all e-mails matching `from:some.address@example.com` and store only `From`,
+- First query will fetch all messages matching `from:some.address@example.com` and store only `From`,
 `To` and `Subject` headers
-- Second query will fetch all e-mails matching `from:another.address@example.com` and all headers
+- Second query will fetch all messages matching `from:another.address@example.com` and all headers
 which belongs to filtered messages.
 
+*Tip: Google provides big [manual on Gmail's Help site](https://support.google.com/mail/answer/7190?hl=en) which can help you with query definition.*
 
 ## Important notes
 
@@ -39,4 +38,4 @@ which belongs to filtered messages.
 - by default, application won't fetch messages in your `spam` and `trash` folders
 - inbox is accessed with readonly access `https://www.googleapis.com/auth/gmail.readonly`
 - second run with same queries will automatically add `after` part to query, which prevents
-application from fetching same e-mail all the time
+application from fetching same messages

@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/keboola/gmail-extractor/blob/master/LICENSE.md)
 
 Docker application for extracting data from Gmail. Application simply iterates through specified
-queries and downloads matching e-mails.
+queries and downloads matching messages.
 
 ## Configuration
 
@@ -57,7 +57,7 @@ Done.
 
 ### Files
 
-After successful extraction there are several files, which contains data about downloaded e-mails.
+After successful extraction there are several files, which contains data about downloaded messages.
 
 #### `queries.csv`
 
@@ -68,7 +68,7 @@ Table of queries and its messages:
 | `from:some.address@example.com` | `9876cbd54bd215a6` |
 | `from:another.address@example.com` | `1234abcd2ffdc1d6` |
 
-It's good to know from which query e-mail came from.
+It's good to know from which query message came from.
 
 #### `messages.csv`
 
@@ -106,7 +106,7 @@ There is also manifest file for each of the tables.
 ### State
 
 State file `state.yml` is saved after first run of application. It helps with query creation by adding
-additional date (`after`) part which prevent from downloading same e-mail all the time.
+additional date (`after`) part which prevent from downloading same messages.
 
 Sample:
 
