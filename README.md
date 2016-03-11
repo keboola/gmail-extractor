@@ -8,13 +8,6 @@
 Docker application for extracting data from Gmail. Application simply iterates through specified
 queries and downloads matching e-mails.
 
-Important notes:
-
-- try to be as much specific as possible while defining queries, it speeds up extraction
-- by default, application won't fetch messages in your `spam` and `trash` folders
-- inbox is accessed with readonly access `https://www.googleapis.com/auth/gmail.readonly`
-
-
 ## Configuration
 
 - `parameters`
@@ -43,6 +36,8 @@ Example:
     }
 }
 ```
+
+More about configuration can be found on [UI site](https://github.com/keboola/gmail-extractor/blob/master/UI.md).
 
 ## Output
 
