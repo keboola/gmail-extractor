@@ -64,6 +64,17 @@ Done.
 
 After successful extraction there are several files, which contains data about downloaded e-mails.
 
+#### `queries.csv`
+
+Table of queries and its messages:
+
+| query | messageId |
+| --- | --- |
+| `from:some.address@example.com` | `9876cbd54bd215a6` |
+| `from:another.address@example.com` | `1234abcd2ffdc1d6` |
+
+It's good to know from which query e-mail came from.
+
 #### `messages.csv`
 
 Base table of messages:
@@ -94,6 +105,21 @@ All downloaded message parts
 | `1234abcd2ffdc1d6` | `1` | `text/html` | `33` | `<p>Lorem ipsum dolor sit amet</p>` |
 
 *Note: Only parts with `text/plain` and `text/html` mime types are downloaded.*
+
+There is also manifest file for each of the tables.
+
+### State
+
+State file `state.yml` is saved after first run of application. It helps with query creation by adding
+additional date (`after`) part which prevent from downloading same e-mail all the time.
+
+Sample:
+
+```yaml
+query-dates:
+    'from:some.address@example.com': '2016-03-10 13:20:24'
+    'from:another.address@example.com': '2016-03-10 13:20:24'
+```
 
 ## Development
 
