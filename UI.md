@@ -1,6 +1,6 @@
 # Configuring Gmail Extractor in Keboola Connection
 
-After adding of new extractor and authorizing it to access your account there's a place for
+After adding new extractor and authorizing it to access your account there's a place for
 configuration:
 
 Sample:
