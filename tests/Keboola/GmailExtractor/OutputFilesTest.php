@@ -48,10 +48,10 @@ class OutputFilesTest extends \PHPUnit_Framework_TestCase
         $expectedPartsFileName = $path . '/expected-' . $partsFileName;
         $expectedQueriesFileName = $path . '/expected-' . $queriesFileName;
 
-        file_put_contents($expectedMessagesFileName, '"id","threadId"' . "\n");
-        file_put_contents($expectedHeadersFileName, '"messageId","name","value"' . "\n");
-        file_put_contents($expectedPartsFileName, '"messageId","partId","mimeType","bodySize","bodyData"' . "\n");
-        file_put_contents($expectedQueriesFileName, '"query","messageId"' . "\n");
+        $this->fs->dumpFile($expectedMessagesFileName, '"id","threadId"' . "\n");
+        $this->fs->dumpFile($expectedHeadersFileName, '"messageId","name","value"' . "\n");
+        $this->fs->dumpFile($expectedPartsFileName, '"messageId","partId","mimeType","bodySize","bodyData"' . "\n");
+        $this->fs->dumpFile($expectedQueriesFileName, '"query","messageId"' . "\n");
 
         $this->assertFileEquals($expectedMessagesFileName, $path . '/' . $messagesFileName);
         $this->assertFileEquals($expectedHeadersFileName, $path . '/' . $headersFileName);
@@ -99,10 +99,10 @@ primary_key:
     - messageId
 YAML;
 
-        file_put_contents($expectedMessagesFileName, $messagesManifestContents . "\n");
-        file_put_contents($expectedHeadersFileName, $headersManifestContents . "\n");
-        file_put_contents($expectedPartsFileName, $partsManifestContents . "\n");
-        file_put_contents($expectedQueriesFileName, $queriesManifestContents . "\n");
+        $this->fs->dumpFile($expectedMessagesFileName, $messagesManifestContents . "\n");
+        $this->fs->dumpFile($expectedHeadersFileName, $headersManifestContents . "\n");
+        $this->fs->dumpFile($expectedPartsFileName, $partsManifestContents . "\n");
+        $this->fs->dumpFile($expectedQueriesFileName, $queriesManifestContents . "\n");
 
         $this->assertFileEquals($expectedMessagesFileName, $path . '/' . $messagesFileName);
         $this->assertFileEquals($expectedHeadersFileName, $path . '/' . $headersFileName);
