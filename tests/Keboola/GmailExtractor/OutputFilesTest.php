@@ -78,7 +78,6 @@ class OutputFilesTest extends \PHPUnit_Framework_TestCase
 incremental: true
 primary_key:
     - id
-destination: out.c-ex-gmail.messages
 YAML;
         $headersManifestContents = <<<YAML
 incremental: true
@@ -86,21 +85,18 @@ primary_key:
     - messageId
     - name
     - value
-destination: out.c-ex-gmail.headers
 YAML;
         $partsManifestContents = <<<YAML
 incremental: true
 primary_key:
     - messageId
     - partId
-destination: out.c-ex-gmail.parts
 YAML;
         $queriesManifestContents = <<<YAML
 incremental: true
 primary_key:
     - query
     - messageId
-destination: out.c-ex-gmail.queries
 YAML;
 
         file_put_contents($expectedMessagesFileName, $messagesManifestContents . "\n");
