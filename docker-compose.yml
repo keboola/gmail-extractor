@@ -7,4 +7,6 @@ tests:
 tests-with-report:
   extends:
     service: tests
+  volumes:
+    - ./.git:/code/.git
   command: sh -c './tests.sh && ./vendor/bin/test-reporter'
