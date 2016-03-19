@@ -16,3 +16,9 @@ script:
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
     -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
     tests-with-report
+
+deploy:
+  provider: script
+  script: deploy.sh
+  on:
+    tags: true
