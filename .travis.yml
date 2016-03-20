@@ -3,11 +3,25 @@ sudo: required
 services:
   - docker
 
+env:
+  DOCKER_COMPOSE_VERSION: 1.6.2
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" -y install docker-engine
+
+install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
 before_script:
+  - docker -v
   - docker-compose -v
+  - docker-compose build tests-with-report
 
 script:
-  - docker-compose build tests-with-report
   - >
     docker-compose run
     --rm
@@ -16,6 +30,9 @@ script:
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
     -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
     tests-with-report
+
+after_success:
+  - docker images
 
 deploy:
   provider: script

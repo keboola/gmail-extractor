@@ -1,12 +1,17 @@
-tests:
-  build: .
-  tty: true
-  stdin_open: true
-  command: ./tests.sh
+version: "2"
 
-tests-with-report:
-  extends:
-    service: tests
-  volumes:
-    - ./.git:/code/.git
-  command: sh -c './tests.sh && ./vendor/bin/test-reporter'
+services:
+
+  tests:
+    build: .
+    image: keboola/gmail-extractor
+    tty: true
+    stdin_open: true
+    command: ./tests.sh
+
+  tests-with-report:
+    extends:
+      service: tests
+    volumes:
+      - ./.git:/code/.git
+    command: sh -c './tests.sh && ./vendor/bin/test-reporter'
