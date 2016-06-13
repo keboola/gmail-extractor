@@ -1,0 +1,38 @@
+{
+  "title": "Configuration",
+  "type": "object",
+  "required": [
+    "queries"
+  ],
+  "properties": {
+    "queries": {
+      "type": "array",
+      "format": "table",
+      "title": "Queries",
+      "items": {
+        "type": "object",
+        "title": "Query",
+        "required": [
+          "query"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query",
+            "minLength": 1
+          },
+          "headers": {
+            "type": "array",
+            "format": "table",
+            "title": "Headers",
+            "items": {
+              "type": "string",
+              "title": "Header",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
