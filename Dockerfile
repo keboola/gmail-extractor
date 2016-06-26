@@ -1,15 +1,20 @@
-FROM php:7.0.3
+FROM php:7.0
 MAINTAINER Vladimír Kriška <vlado@keboola.com>
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install unzip git -y
-RUN cd && curl -sS https://getcomposer.org/installer | php && ln -s /root/composer.phar /usr/local/bin/composer
-RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN apt-get update -q \
+  && apt-get install unzip git -y
 
-ADD . /code
+WORKDIR /root
 
-RUN cd /code && composer install --prefer-dist --no-interaction
+RUN curl -sS https://getcomposer.org/installer | php \
+  && mv composer.phar /usr/local/bin/composer
+
+COPY ./docker/php.ini /usr/local/etc/php/php.ini
+COPY . /code
 
 WORKDIR /code
+
+RUN composer install --prefer-dist --no-interaction
 
 CMD php ./src/run.php --data=/data

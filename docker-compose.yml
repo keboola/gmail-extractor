@@ -2,16 +2,29 @@ version: "2"
 
 services:
 
-  tests:
+  php:
     build: .
     image: keboola/gmail-extractor
     tty: true
     stdin_open: true
+    volumes:
+      - ./:/code
+    command: bash
+
+  php-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile-tests
     command: ./tests.sh
 
-  tests-with-report:
-    extends:
-      service: tests
+  php-tests-with-report:
+    build:
+      context: .
+      dockerfile: Dockerfile-tests
     volumes:
       - ./.git:/code/.git
-    command: sh -c './tests.sh && ./vendor/bin/test-reporter'
+    command: >
+             sh -c '
+             ./tests.sh
+             && ./vendor/bin/test-reporter
+             '

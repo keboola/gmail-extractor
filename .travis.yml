@@ -19,7 +19,7 @@ install:
 before_script:
   - docker -v
   - docker-compose -v
-  - docker-compose build tests-with-report
+  - docker-compose build php php-tests-with-report
 
 script:
   - >
@@ -29,13 +29,14 @@ script:
     -e ENV_GMAIL_EXTRACTOR_APP_SECRET=$ENV_GMAIL_EXTRACTOR_APP_SECRET
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
     -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
-    tests-with-report
+    php-tests-with-report
 
 after_success:
   - docker images
 
 deploy:
   provider: script
+  skip_cleanup: true
   script: ./deploy.sh
   on:
     tags: true
