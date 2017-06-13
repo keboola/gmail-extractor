@@ -8,7 +8,7 @@
 Docker application for extracting data from Gmail. Application simply iterates through specified
 queries and downloads matching messages.
 
-**[For documentation about configuring in Keboola Connection follow this link](https://help.keboola.com/extractors/gmail/).**
+**[For documentation about configuring in Keboola Connection follow this link](https://help.keboola.com/extractors/communication/gmail/).**
 
 ## Configuration
 
@@ -32,7 +32,7 @@ authorization:
 
 1. `stdout`: Application informs you about extraction process.
 2. files: `queries.csv`, `messages.csv`, `headers.csv` and `parts.csv` and related manifest files
-(see [https://help.keboola.com/extractors/gmail/#produced-tables](https://help.keboola.com/extractors/gmail/#produced-tables))
+(see [https://help.keboola.com/extractors/communication/gmail/#produced-tables](https://help.keboola.com/extractors/gmail/#produced-tables))
 
 ### State
 
