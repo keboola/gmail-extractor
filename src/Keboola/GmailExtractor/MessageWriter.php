@@ -67,11 +67,7 @@ class MessageWriter
             }
         }
 
-        $messageParts = $this->message->getPayload()['parts'];
-
-        foreach ($messageParts as $messagePart) {
-            $this->writePart($messagePart);
-        }
+        $this->writePart($this->message->getPayload());
     }
 
     /**
