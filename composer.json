@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "google/apiclient": "~1.1",
+        "google/apiclient": "^2.2",
         "keboola/csv": "~1.1",
         "symfony/yaml": "~3.0",
         "symfony/dependency-injection": "~3.0",
