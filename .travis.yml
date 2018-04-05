@@ -6,9 +6,9 @@ services:
   - docker
 
 before_script:
-  - docker -v
-  - docker-compose -v
-  - docker-compose build php php-tests-with-report
+  - docker-compose build app
+  - docker-compose build tests
+  - docker-compose build tests-with-report
 
 script:
   - >
@@ -18,7 +18,7 @@ script:
     -e ENV_GMAIL_EXTRACTOR_APP_SECRET=$ENV_GMAIL_EXTRACTOR_APP_SECRET
     -e ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON=$ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON
     -e CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN
-    php-tests-with-report
+    tests-with-report
 
 after_success:
   - docker images
@@ -33,3 +33,4 @@ deploy:
 notifications:
   slack:
     secure: bZ1rmqX+b1mzofQhhGE0LYRvMtkQtdEi2ZPCeIWYCUsdP/pBgwPkwhgxS8fq1qgufl6OShk7jvf++3CPrgCPtqyIQqB9joJdT7vxnuctvZ8fDcDPJtwgj7Ret6wA8sv04DZuQmaBAZkLI7Ts6sypDcby+v8BWMbd0yl/704jihDBGHeBI5EmDVFF7mOKV2RUkzYI5/rF35lcZavZY7TMc2WkT/syxn/jmMJtHXQ4GISP08P0FqghqzBZZu3zDCZKv2XCjoXgcnJTvPOjsigGck0rZvzwigidBR3xfMlYwFNinNalMuEySP2ags8H3lBKW2IIRxbmaLQpxqQ7z+Wep3xTsjBnjuiNut4usVCzZe9PtWWyAtMXKjXMoa4cJEzQ9dJjAOfIMGMSHgaKxlddt38704AKeT0LEjL4DllPKZk0eqs2K9nr04deO+R1EvpGVFoCs5Ubhp2gb6dUE1LeQsGP/eqgPj5PjZ4VARJTevc8cQEP+/bgwUtYcj83omf/5KSDkYrgTLZOeag0T5VlEk+rmIaYm3HGrZYUyzpR5NZ38MF6dDGlMmzzU3in4OB62jgx/aq6F3ejg4P8K5eZMs9DuUzrXZv4s7oj75C8Awqv3SgfL2uFH3GW/1d+xOX3wXOwTo4C1YmVR7Md7IDR1BB+VSXIP2QInhz384CNt44=
+  email: false

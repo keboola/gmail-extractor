@@ -2,7 +2,7 @@ version: "2"
 
 services:
 
-  php:
+  app:
     build: .
     image: keboola/gmail-extractor
     tty: true
@@ -11,13 +11,13 @@ services:
       - ./:/code
     command: bash
 
-  php-tests:
+  tests:
     build:
       context: .
       dockerfile: Dockerfile-tests
     command: ./tests.sh
 
-  php-tests-with-report:
+  tests-with-report:
     build:
       context: .
       dockerfile: Dockerfile-tests

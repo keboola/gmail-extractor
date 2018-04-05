@@ -1,6 +1,6 @@
 FROM php:7.0
-MAINTAINER Vladimír Kriška <vlado@keboola.com>
 ENV DEBIAN_FRONTEND noninteractive
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN apt-get update -q \
   && apt-get install unzip git -y
