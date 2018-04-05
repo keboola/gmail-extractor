@@ -70,15 +70,31 @@ class MessageWriter
         $messageParts = $this->message->getPayload()['parts'];
 
         foreach ($messageParts as $messagePart) {
-            /** @var $messagePart \Google_Service_Gmail_MessagePart */
-            if ($this->isMimeTypeAllowed($messagePart)) {
-                $this->outputFiles->getPartsFile()->writeRow([
-                    $this->message->getId(),
-                    $messagePart->getPartId(),
-                    $messagePart->getMimeType(),
-                    $messagePart->getBody()['size'],
-                    $this->substring65535(Base64Url::decode($messagePart->getBody()['data'])),
-                ]);
+            $this->writePart($messagePart);
+        }
+    }
+
+    /**
+     * @param \Google_Service_Gmail_MessagePart $messagePart
+     * @throws \Keboola\Csv\Exception
+     */
+    private function writePart(\Google_Service_Gmail_MessagePart $messagePart)
+    {
+        if ($this->isMimeTypeAllowed($messagePart) && $messagePart->getBody()->getData() !== null) {
+            $this->outputFiles->getPartsFile()->writeRow([
+                $this->message->getId(),
+                $messagePart->getPartId(),
+                $messagePart->getMimeType(),
+                $messagePart->getBody()['size'],
+                $this->substring65535(Base64Url::decode($messagePart->getBody()['data'])),
+            ]);
+        }
+
+        $nestedParts = $messagePart->getParts();
+
+        if (!empty($nestedParts)) {
+            foreach ($nestedParts as $nestedPart) {
+                $this->writePart($nestedPart);
             }
         }
     }
