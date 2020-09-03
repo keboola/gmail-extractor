@@ -14,7 +14,7 @@
         "google/apiclient": "^2.2",
         "keboola/csv": "~1.1",
         "symfony/yaml": "~3.0",
-        "symfony/dependency-injection": "~3.0",
+        "symfony/dependency-injection": "~3.4.26",
         "symfony/console": "~3.0",
         "symfony/filesystem": "~3.0"
     },
