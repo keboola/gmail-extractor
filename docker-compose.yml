@@ -12,15 +12,11 @@ services:
     command: bash
 
   tests:
-    build:
-      context: .
-      dockerfile: Dockerfile-tests
+    build: .
     command: ./tests.sh
 
   tests-with-report:
-    build:
-      context: .
-      dockerfile: Dockerfile-tests
+    build: .
     volumes:
       - ./.git:/code/.git
     command: >
