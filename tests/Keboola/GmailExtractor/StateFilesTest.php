@@ -44,6 +44,5 @@ class StateFilesTest extends \PHPUnit_Framework_TestCase
         $stateFiles->saveStateOut();
 
         $this->assertFileEquals($this->path . '/in/state.yml', $this->path . '/out/state.yml');
-
     }
 }
