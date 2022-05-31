@@ -82,8 +82,4 @@ Run test script in container (environment variables will be sourced automaticall
 
 ## License
 
-MIT. See license file.
-
-## License
-
 MIT licensed, see [LICENSE](./LICENSE) file.
