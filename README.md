@@ -1,8 +1,5 @@
 # Gmail Extractor
 
-[![Build Status](https://travis-ci.com/keboola/gmail-extractor.svg?branch=master)](https://travis-ci.com/keboola/gmail-extractor)
-[![Code Climate](https://codeclimate.com/github/keboola/gmail-extractor/badges/gpa.svg)](https://codeclimate.com/github/keboola/gmail-extractor)
-[![Test Coverage](https://codeclimate.com/github/keboola/gmail-extractor/badges/coverage.svg)](https://codeclimate.com/github/keboola/gmail-extractor/coverage)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/keboola/gmail-extractor/blob/master/LICENSE.md)
 
 Docker application for extracting data from Gmail. Application simply iterates through specified
@@ -59,25 +56,17 @@ Since application is prepared for running in container, you can start developmen
 3. Build services: `docker-compose build`
 4. Create data dir: `mkdir -p data`
 5. Create `config.yml` file and place it to your data directory (`data/config.yml`):
-6. Run container: `docker-compose run --rm php`
+6. Run container: `docker-compose run --rm app`
 7. Run application `php src/run.php --data=/data/`
 
 ### Tests
 
-Create bash script `set-env.sh` with similar content:
-
-```bash
-#!/bin/bash
-
-export ENV_GMAIL_EXTRACTOR_APP_KEY='application-key'
-export ENV_GMAIL_EXTRACTOR_APP_SECRET='application-secret'
-export ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON='{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
-```
+Create `.env` from `.env.dist` with credentials:
 
 Run test script in container (environment variables will be sourced automatically):
 
 ```console
-./tests.sh
+docker-compose run --rm app composer ci
 ```
 
 ## License

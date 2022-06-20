@@ -20,8 +20,24 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~5.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
         "squizlabs/php_codesniffer": "~2.0",
-        "codeclimate/php-test-reporter": "~0.3"
+        "vlucas/phpdotenv": "^4.2"
+    },
+    "scripts": {
+        "tests": "./vendor/bin/phpunit",
+        "phpcs": "./vendor/bin/phpcs --standard=psr2 -n --ignore=vendor .",
+        "phpcbf": "./vendor/bin/phpcbf --standard=psr2 -n --ignore=vendor .",
+        "phplint": "parallel-lint -j 10 --exclude vendor .",
+        "build": [
+            "@phplint",
+            "@phpcs",
+            "@tests"
+        ],
+        "ci": [
+            "@composer validate --no-check-publish --no-check-all",
+            "@build"
+        ]
     },
     "autoload": {
         "psr-4": {

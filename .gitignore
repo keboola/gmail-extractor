@@ -2,4 +2,4 @@
 /vendor
 /build
 /data
-/set-env.sh
+.env
