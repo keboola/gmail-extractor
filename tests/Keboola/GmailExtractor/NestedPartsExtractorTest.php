@@ -31,10 +31,10 @@ class NestedPartsExtractorTest extends \PHPUnit_Framework_TestCase
         $client = new \Google_Client;
         $client->setApplicationName('Keboola Gmail Extractor (dev)');
         $client->setScopes(\Google_Service_Gmail::GMAIL_READONLY);
-        $client->setClientId(GMAIL_EXTRACTOR_APP_KEY);
-        $client->setClientSecret(GMAIL_EXTRACTOR_APP_SECRET);
+        $client->setClientId(getenv('ENV_GMAIL_EXTRACTOR_APP_KEY'));
+        $client->setClientSecret(getenv('ENV_GMAIL_EXTRACTOR_APP_SECRET'));
         $client->setAccessType('offline');
-        $client->setAccessToken(GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON);
+        $client->setAccessToken(getenv('ENV_GMAIL_EXTRACTOR_ACCESS_TOKEN_JSON'));
         if ($client->isAccessTokenExpired()) {
             $client->refreshToken($client->getRefreshToken());
         }

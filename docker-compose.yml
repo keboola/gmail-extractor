@@ -10,17 +10,3 @@ services:
     volumes:
       - ./:/code
     command: bash
-
-  tests:
-    build: .
-    command: ./tests.sh
-
-  tests-with-report:
-    build: .
-    volumes:
-      - ./.git:/code/.git
-    command: >
-             sh -c '
-             ./tests.sh
-             && ./vendor/bin/test-reporter
-             '
