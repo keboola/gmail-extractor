@@ -74,35 +74,23 @@ class OutputFilesTest extends \PHPUnit_Framework_TestCase
         $expectedPartsFileName = $path . '/expected-' . $partsFileName . '.manifest';
         $expectedQueriesFileName = $path . '/expected-' . $queriesFileName . '.manifest';
 
-        $messagesManifestContents = <<<YAML
-incremental: true
-primary_key:
-    - id
-YAML;
-        $headersManifestContents = <<<YAML
-incremental: true
-primary_key:
-    - messageId
-    - name
-    - value
-YAML;
-        $partsManifestContents = <<<YAML
-incremental: true
-primary_key:
-    - messageId
-    - partId
-YAML;
-        $queriesManifestContents = <<<YAML
-incremental: true
-primary_key:
-    - query
-    - messageId
-YAML;
+        $messagesManifestContents = <<<JSON
+{"incremental":true,"primary_key":["id"]}
+JSON;
+        $headersManifestContents = <<<JSON
+{"incremental":true,"primary_key":["messageId","name","value"]}
+JSON;
+        $partsManifestContents = <<<JSON
+{"incremental":true,"primary_key":["messageId","partId"]}
+JSON;
+        $queriesManifestContents = <<<JSON
+{"incremental":true,"primary_key":["query","messageId"]}
+JSON;
 
-        $this->fs->dumpFile($expectedMessagesFileName, $messagesManifestContents . "\n");
-        $this->fs->dumpFile($expectedHeadersFileName, $headersManifestContents . "\n");
-        $this->fs->dumpFile($expectedPartsFileName, $partsManifestContents . "\n");
-        $this->fs->dumpFile($expectedQueriesFileName, $queriesManifestContents . "\n");
+        $this->fs->dumpFile($expectedMessagesFileName, $messagesManifestContents);
+        $this->fs->dumpFile($expectedHeadersFileName, $headersManifestContents);
+        $this->fs->dumpFile($expectedPartsFileName, $partsManifestContents);
+        $this->fs->dumpFile($expectedQueriesFileName, $queriesManifestContents);
 
         $this->assertFileEquals($expectedMessagesFileName, $path . '/' . $messagesFileName);
         $this->assertFileEquals($expectedHeadersFileName, $path . '/' . $headersFileName);
