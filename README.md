@@ -9,20 +9,30 @@ queries and downloads matching messages.
 
 ## Configuration
 
-```yaml
-parameters:
-  queries: # array of queries used to fetch messages
-    - query: 'from:some.address@example.com' # query to execute, same query format as in the Gmail search box
-      headers: # (optional) array of header names which you want to save
-        - 'Date'
-        - 'From'
-        - 'Subject'
-authorization:
-  oauth_api:
-    credentials:
-      '#data': '{"access_token":"access-token","token_type":"Bearer","expires_in":3600,"refresh_token":"refresh-token","created":1457455916}'
-      'appKey': 'application-key'
-      '#appSecret': 'application-secret'
+```json
+{
+  "parameters": {
+    "queries": [
+      {
+        "query": "from:some.address@example.com",
+        "headers": [
+          "Date",
+          "From",
+          "Subject"
+        ]
+      }
+    ]
+  },
+  "authorization": {
+    "oauth_api": {
+      "credentials": {
+        "#data": "{\"access_token\":\"access-token\",\"token_type\":\"Bearer\",\"expires_in\":3600,\"refresh_token\":\"refresh-token\",\"created\":1457455916}",
+        "appKey": "application-key",
+        "#appSecret": "application-secret"
+      }
+    }
+  }
+}
 ```
 
 ## Output
@@ -33,13 +43,16 @@ authorization:
 
 ### State
 
-State file `state.yml` is saved after first run of application. It helps with query creation by adding
+State file `state.json` is saved after first run of application. It helps with query creation by adding
 additional date (`after`) part which prevent from downloading same messages.
 
-```yaml
-query-dates:
-    'from:some.address@example.com': '2016-03-10 13:20:24'
-    'from:another.address@example.com': '2016-03-10 13:20:24'
+```json
+{
+  "query-dates": {
+    "from:some.address@example.com": "2016-03-10 13:20:24",
+    "from:another.address@example.com": "2016-03-10 13:20:24"
+  }
+}
 ```
 
 ## Development
@@ -55,7 +68,7 @@ Since application is prepared for running in container, you can start developmen
 2. Change directory `cd gmail-extractor`
 3. Build services: `docker-compose build`
 4. Create data dir: `mkdir -p data`
-5. Create `config.yml` file and place it to your data directory (`data/config.yml`):
+5. Create `config.json` file and place it to your data directory (`data/config.json`):
 6. Run container: `docker-compose run --rm app`
 7. Run application `php src/run.php --data=/data/`
 

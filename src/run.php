@@ -3,7 +3,6 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Yaml\Yaml;
 use Keboola\GmailExtractor\OutputFiles;
 use Keboola\GmailExtractor\Query;
 use Keboola\GmailExtractor\StateFiles;
@@ -15,7 +14,8 @@ if (!isset($arguments['data'])) {
 }
 
 try {
-    $config = Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
+    $configContent = (string) file_get_contents($arguments['data'] . "/config.json");
+    $config = json_decode($configContent, true);
 
     if (!isset($config['authorization']['oauth_api']['credentials']['appKey'])
         || !isset($config['authorization']['oauth_api']['credentials']['#appSecret'])) {

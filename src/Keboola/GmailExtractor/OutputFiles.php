@@ -3,7 +3,6 @@
 namespace Keboola\GmailExtractor;
 
 use Keboola\Csv\CsvFile;
-use Symfony\Component\Yaml\Yaml;
 
 class OutputFiles
 {
@@ -129,7 +128,7 @@ class OutputFiles
         foreach ($this->definitions as $table => $definition) {
             $manifestFile = $this->path . '/' . $definition['file'] . '.manifest';
             if (!file_exists($manifestFile)) {
-                file_put_contents($manifestFile, Yaml::dump([
+                file_put_contents($manifestFile, json_encode([
                     'incremental' => true,
                     'primary_key' => $definition['primary'],
                 ]));

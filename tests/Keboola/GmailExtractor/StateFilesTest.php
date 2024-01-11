@@ -3,7 +3,6 @@
 namespace Keboola\GmailExtractor;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
 class StateFilesTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,11 +37,11 @@ class StateFilesTest extends \PHPUnit_Framework_TestCase
                 'subject:gmail-extractor' => '2016-03-10 11:09:54'
             ],
         ];
-        $this->fs->dumpFile($this->path . '/in/state.yml', Yaml::dump($state));
+        $this->fs->dumpFile($this->path . '/in/state.json', json_encode($state));
         $stateFiles = new StateFiles($this->path);
         $stateFiles->setStateOut($state);
         $stateFiles->saveStateOut();
 
-        $this->assertFileEquals($this->path . '/in/state.yml', $this->path . '/out/state.yml');
+        $this->assertFileEquals($this->path . '/in/state.json', $this->path . '/out/state.json');
     }
 }

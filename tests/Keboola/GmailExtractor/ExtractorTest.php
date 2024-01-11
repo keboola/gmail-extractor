@@ -55,24 +55,24 @@ class ExtractorTest extends \PHPUnit_Framework_TestCase
 
         $messagesContents = <<<CSV
 "id","threadId"
-"15341d3b36d2fccc","15341d3b36d2fccc"\n
+"18cf3174b3005c60","18cf316f74ada24e"\n
 CSV;
         $headersContents = <<<CSV
 "messageId","name","value"
-"15341d3b36d2fccc","Date","Fri, 4 Mar 2016 14:31:45 +0100"
-"15341d3b36d2fccc","Subject","keboola-gmail-extractor-test-email"
-"15341d3b36d2fccc","To","vlado@keboola.com"\n
+"18cf3174b3005c60","Date","Wed, 10 Jan 2024 12:17:18 +0100"
+"18cf3174b3005c60","Subject","keboola-gmail-extractor-test-email"
+"18cf3174b3005c60","To","""Ondřej Jodas"" <ondrej.jodas@keboola.com>"\n
 CSV;
         $partsContents = <<<CSV
 "messageId","partId","mimeType","bodySize","bodyData"
-"15341d3b36d2fccc","0","text/plain","25","https://www.keboola.com
+"18cf3174b3005c60","0","text/plain","25","https://www.keboola.com
 "
-"15341d3b36d2fccc","1","text/html","84","<div dir=""ltr""><a href=""https://www.keboola.com"">https://www.keboola.com</a></div>
+"18cf3174b3005c60","1","text/html","88","<div dir=""ltr""><a href=""https://www.keboola.com"">https://www.keboola.com</a><br></div>
 "\n
 CSV;
         $queriesContents = <<<CSV
 "query","messageId"
-"subject:keboola-gmail-extractor-test-email","15341d3b36d2fccc"\n
+"subject:keboola-gmail-extractor-test-email","18cf3174b3005c60"\n
 CSV;
 
         $this->assertFileExists($path . '/' . $messagesFileName);

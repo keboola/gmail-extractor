@@ -55,30 +55,32 @@ class NestedPartsExtractorTest extends \PHPUnit_Framework_TestCase
 
         $messagesContents = <<<CSV
 "id","threadId"
-"162973353bade11a","162973353bade11a"\n
+"18cf37c1b055be37","18cf37b4f1328b1b"\n
 CSV;
         $headersContents = <<<CSV
 "messageId","name","value"
-"162973353bade11a","To","vlado@keboola.com"
-"162973353bade11a","Subject","email with nested parts"
-"162973353bade11a","Date","Thu, 5 Apr 2018 21:05:46 +0200"\n
+"18cf37c1b055be37","Date","Wed, 10 Jan 2024 14:07:25 +0100"
+"18cf37c1b055be37","Subject","email with nested parts"
+"18cf37c1b055be37","To","""Ondřej Jodas"" <ondrej.jodas@keboola.com>"\n
 CSV;
         $partsContents = <<<CSV
 "messageId","partId","mimeType","bodySize","bodyData"
-"162973353bade11a","0.0","text/plain","65","Please see the attached file for a list of customers to contact.
+"18cf37c1b055be37","0","text/plain","77"," Hello!
+
+Please see the attached file for a list of customers to contact.
 "
-"162973353bade11a","0.1","text/html","132","<html>
-<head></head>
-<body>
+"18cf37c1b055be37","1","text/html","125","<div dir=""ltr"">
+
+
 <h1>Hello!</h1>
 <p>Please see the attached file for a list of customers to contact.</p>
-</body>
-</html>
+
+<br></div>
 "\n
 CSV;
         $queriesContents = <<<CSV
 "query","messageId"
-"subject:email with nested parts","162973353bade11a"\n
+"subject:email with nested parts","18cf37c1b055be37"\n
 CSV;
 
         $this->assertFileExists($path . '/' . $messagesFileName);
